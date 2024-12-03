@@ -1,0 +1,24 @@
+C:\Users\mirko\source\repos\Calculadora Economica\Calculadora Economica\bin\Debug\net8.0-windows\Calculadora Economica.exe
+C:\Users\mirko\source\repos\Calculadora Economica\Calculadora Economica\bin\Debug\net8.0-windows\Calculadora Economica.deps.json
+C:\Users\mirko\source\repos\Calculadora Economica\Calculadora Economica\bin\Debug\net8.0-windows\Calculadora Economica.runtimeconfig.json
+C:\Users\mirko\source\repos\Calculadora Economica\Calculadora Economica\bin\Debug\net8.0-windows\Calculadora Economica.dll
+C:\Users\mirko\source\repos\Calculadora Economica\Calculadora Economica\bin\Debug\net8.0-windows\Calculadora Economica.pdb
+C:\Users\mirko\source\repos\Calculadora Economica\Calculadora Economica\bin\Debug\net8.0-windows\LiveCharts.dll
+C:\Users\mirko\source\repos\Calculadora Economica\Calculadora Economica\bin\Debug\net8.0-windows\LiveCharts.Wpf.dll
+C:\Users\mirko\source\repos\Calculadora Economica\Calculadora Economica\obj\Debug\net8.0-windows\Calculadora Economica.csproj.AssemblyReference.cache
+C:\Users\mirko\source\repos\Calculadora Economica\Calculadora Economica\obj\Debug\net8.0-windows\MainWindow.g.cs
+C:\Users\mirko\source\repos\Calculadora Economica\Calculadora Economica\obj\Debug\net8.0-windows\App.g.cs
+C:\Users\mirko\source\repos\Calculadora Economica\Calculadora Economica\obj\Debug\net8.0-windows\Calculadora Economica_MarkupCompile.cache
+C:\Users\mirko\source\repos\Calculadora Economica\Calculadora Economica\obj\Debug\net8.0-windows\Calculadora Economica_MarkupCompile.lref
+C:\Users\mirko\source\repos\Calculadora Economica\Calculadora Economica\obj\Debug\net8.0-windows\MainWindow.baml
+C:\Users\mirko\source\repos\Calculadora Economica\Calculadora Economica\obj\Debug\net8.0-windows\Calculadora Economica.g.resources
+C:\Users\mirko\source\repos\Calculadora Economica\Calculadora Economica\obj\Debug\net8.0-windows\Calculadora Economica.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\mirko\source\repos\Calculadora Economica\Calculadora Economica\obj\Debug\net8.0-windows\Calculadora Economica.AssemblyInfoInputs.cache
+C:\Users\mirko\source\repos\Calculadora Economica\Calculadora Economica\obj\Debug\net8.0-windows\Calculadora Economica.AssemblyInfo.cs
+C:\Users\mirko\source\repos\Calculadora Economica\Calculadora Economica\obj\Debug\net8.0-windows\Calculadora Economica.csproj.CoreCompileInputs.cache
+C:\Users\mirko\source\repos\Calculadora Economica\Calculadora Economica\obj\Debug\net8.0-windows\Calculad.8997CE29.Up2Date
+C:\Users\mirko\source\repos\Calculadora Economica\Calculadora Economica\obj\Debug\net8.0-windows\Calculadora Economica.dll
+C:\Users\mirko\source\repos\Calculadora Economica\Calculadora Economica\obj\Debug\net8.0-windows\refint\Calculadora Economica.dll
+C:\Users\mirko\source\repos\Calculadora Economica\Calculadora Economica\obj\Debug\net8.0-windows\Calculadora Economica.pdb
+C:\Users\mirko\source\repos\Calculadora Economica\Calculadora Economica\obj\Debug\net8.0-windows\Calculadora Economica.genruntimeconfig.cache
+C:\Users\mirko\source\repos\Calculadora Economica\Calculadora Economica\obj\Debug\net8.0-windows\ref\Calculadora Economica.dll

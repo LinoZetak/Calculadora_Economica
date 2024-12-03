@@ -1,0 +1,623 @@
+﻿<Window x:Class="AppCalculadoraIntereses.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AppCalculadoraIntereses"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        mc:Ignorable="d"
+        Title="Calculadora Económica" Height="600" Width="800" WindowStartupLocation="CenterScreen" >
+    <Grid>
+
+        <!-- Pestañas (TabControl) -->
+        <TabControl Grid.Row="0" Name="TabOperaciones" Margin="0,0,0,0">
+            <!-- Pestaña de Interés Simple -->
+            <TabItem Header="Interés Simple">
+                <Grid Height="Auto">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="36*" MaxHeight="260" MinHeight="260"/>
+                        <RowDefinition Height="5*"/>
+                        <RowDefinition Height="39*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Formulario de entrada para Interés Simple -->
+                    <Border Grid.Column="0"
+                            Grid.Row="0"
+                            Grid.RowSpan="2"
+                            CornerRadius="5"
+                            BorderBrush="Gray"
+                            Background="WhiteSmoke"
+                            BorderThickness="2"
+                            Padding="8"
+                            Margin="10,10,10,3">
+                        <StackPanel Margin="10" VerticalAlignment="Center">
+                            <TextBlock Text="Capital (C)" Margin="5"/>
+                            <TextBox x:Name="txtCapitalSimple" Margin="5" TextChanged="ActualizarSimulacionInteresSimple"/>
+                            <TextBlock Text="Tasa de Interés (%)" Margin="5"/>
+                            <TextBox x:Name="txtTasaSimple" Margin="5" TextChanged="ActualizarSimulacionInteresSimple"/>
+                            <TextBlock Text="Años (t)" Margin="5"/>
+                            <TextBox x:Name="txtAniosSimple" Margin="5" TextChanged="ActualizarSimulacionInteresSimple"/>
+                            <Button Content="Borrar Datos" Click="BorrarDatosInteresSimple" Margin="10,30,10,10"/>
+                        </StackPanel>
+                    </Border>
+
+
+                    <!-- Resultado -->
+                    <Border Grid.Row="1" 
+                            Grid.Column="1"
+                            BorderBrush="Gray"
+                            BorderThickness="2"
+                            CornerRadius="5"
+                            Width="200"
+                            Height="25"
+                            Background="WhiteSmoke"
+                            Margin="0,0,0,0">
+                        <TextBlock  x:Name="txtResultadoSimple"
+                                    VerticalAlignment="Center" 
+                                    FontSize="14"
+                                    Margin="10,1,10,0" 
+                                    Height="22"
+                                    TextAlignment="Center"
+                                    Text="Resultado"
+                                    Opacity="0.3"/>
+                    </Border>
+
+                    <!-- Gráfico de Interés Simple -->
+                    <lvc:CartesianChart Grid.Column="1" x:Name="chartInteresSimple" Margin="10">
+                        <lvc:CartesianChart.Series>
+                            <lvc:LineSeries Title="Capital" Values="{Binding InteresSimpleSeries}"/>
+                        </lvc:CartesianChart.Series>
+                        <lvc:CartesianChart.AxisX>
+                            <lvc:Axis Title="Años" Labels="{Binding LabelsAnios}"/>
+                        </lvc:CartesianChart.AxisX>
+                        <lvc:CartesianChart.AxisY>
+                            <lvc:Axis Title="Capital" LabelFormatter="{Binding FormatoLabelsEjeY}"/>
+                        </lvc:CartesianChart.AxisY>
+                    </lvc:CartesianChart>
+
+                    <!-- Tabla de Simulación de Interés Simple -->
+                    <DataGrid Grid.Row="2" Grid.ColumnSpan="2" x:Name="dataGridSimple" AutoGenerateColumns="False" Margin="10,10,10,10">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Periodo (Año)" Binding="{Binding Periodo}" Width="*"/>
+                            <DataGridTextColumn Header="Capital Inicial" Binding="{Binding CapitalInicial}" Width="*"/>
+                            <DataGridTextColumn Header="Interés Ganado" Binding="{Binding Interes}" Width="*"/>
+                            <DataGridTextColumn Header="Capital Acumulado" Binding="{Binding CapitalAcumulado}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                </Grid>
+            </TabItem>
+
+            <!-- Pestaña de Interés Compuesto -->
+            <TabItem Header="Interés Compuesto">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="36*" MaxHeight="260" MinHeight="260"/>
+                        <RowDefinition Height="5*"/>
+                        <RowDefinition Height="39*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Formulario de entrada para Interés Compuesto -->
+                    <Border Grid.Column="0"
+                            Grid.Row="0"
+                            Grid.RowSpan="2"
+                            CornerRadius="5"
+                            BorderBrush="Gray"
+                            Background="WhiteSmoke"
+                            BorderThickness="2"
+                            Padding="8"
+                            Margin="10,10,10,3">
+                        <StackPanel Grid.Column="0" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <TextBlock Text="Capital (C)" Margin="5"/>
+                            <TextBox x:Name="txtCapitalCompuesto" Margin="5" TextChanged="ActualizarSimulacionInteresCompuesto"/>
+                            <TextBlock Text="Tasa de Interés (%)" Margin="5"/>
+                            <TextBox x:Name="txtTasaCompuesto" Margin="5" TextChanged="ActualizarSimulacionInteresCompuesto"/>
+                            <TextBlock Text="Años (t)" Margin="5"/>
+                            <TextBox x:Name="txtAniosCompuesto" Margin="5" TextChanged="ActualizarSimulacionInteresCompuesto"/>
+                            <Button Content="Borrar Datos" Click="BorrarDatosInteresCompuesto" Margin="10,30,10,10"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Gráfico de Interés Compuesto -->
+                    <lvc:CartesianChart Grid.Column="1" x:Name="chartInteresCompuesto" Margin="10">
+                        <lvc:CartesianChart.Series>
+                            <lvc:LineSeries Title="Capital" Values="{Binding InteresCompuestoSeries}"/>
+                        </lvc:CartesianChart.Series>
+                        <lvc:CartesianChart.AxisX>
+                            <lvc:Axis Title="Años" Labels="{Binding LabelsAnios}"/>
+                        </lvc:CartesianChart.AxisX>
+                        <lvc:CartesianChart.AxisY>
+                            <lvc:Axis Title="Capital" LabelFormatter="{Binding FormatoLabelsEjeY}"/>
+                        </lvc:CartesianChart.AxisY>
+                    </lvc:CartesianChart>
+
+                    <!-- Resultado -->
+                    <Border Grid.Row="1" 
+                            Grid.Column="1"
+                            BorderBrush="Gray"
+                            BorderThickness="2"
+                            CornerRadius="5"
+                            Width="500"
+                            Height="25"
+                            Background="WhiteSmoke"
+                            Margin="0,0,0,0">
+                        <TextBlock x:Name="txtResultadoCompuesto" 
+                                   VerticalAlignment="Center"
+                                   TextAlignment="Center"
+                                   Margin="10,1,10,0"
+                                   Height="22"
+                                   FontSize="14"
+                                   Text="Resultado"
+                                   Opacity="0.3"/>
+                    </Border>
+
+                    <!-- Tabla de Simulación de Interés Compuesto -->
+                    <DataGrid Grid.Row="2" Grid.ColumnSpan="2" x:Name="dataGridCompuesto" AutoGenerateColumns="False" Margin="10">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Periodo (Año)" Binding="{Binding Periodo}" Width="*"/>
+                            <DataGridTextColumn Header="Capital Inicial" Binding="{Binding CapitalInicial}" Width="*"/>
+                            <DataGridTextColumn Header="Interés Ganado" Binding="{Binding Interes}" Width="*"/>
+                            <DataGridTextColumn Header="Capital Acumulado" Binding="{Binding CapitalAcumulado}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+
+            </TabItem>
+
+            <TabItem Header="Amortiguamiento">
+
+                <Grid Height="Auto">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="36*" MaxHeight="260" MinHeight="260"/>
+                        <RowDefinition Height="5*"/>
+                        <RowDefinition Height="39*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Formulario de entrada para el Amortiguamiento -->
+                    <Border Grid.Column="0"
+                            Grid.Row="0"
+                            Grid.RowSpan="2"
+                            CornerRadius="5"
+                            BorderBrush="Gray"
+                            Background="WhiteSmoke"
+                            BorderThickness="2"
+                            Padding="8"
+                            Margin="10,10,10,3">
+                        <StackPanel Margin="10" VerticalAlignment="Center" >
+                            <TextBlock Text="Capital (C)" Margin="5"/>
+                            <TextBox x:Name="txtCapitalAmortiguamiento" Margin="5" TextChanged="ActualizarSimulacionAmortiguamiento"/>
+                            <TextBlock Text="Tasa de Interés (%)" Margin="5"/>
+                            <TextBox x:Name="txtTasaAmortiguamiento" Margin="5" TextChanged="ActualizarSimulacionAmortiguamiento"/>
+                            <TextBlock Text="Meses (m)" Margin="5"/>
+                            <TextBox x:Name="txtMesesAmortiguamiento" Margin="5" TextChanged="ActualizarSimulacionAmortiguamiento"/>
+                            <Button Content="Borrar Datos" Click="BorrarDatosAmortiguamiento" Margin="10,30,10,10"/>
+                        </StackPanel>
+                    </Border>
+
+
+                    <!-- Resultado -->
+                    <Border Grid.Row="1" 
+                            Grid.Column="1"
+                            BorderBrush="Gray"
+                            BorderThickness="2"
+                            CornerRadius="5"
+                            Width="500"
+                            Height="25"
+                            Background="WhiteSmoke"
+                            Margin="0,0,0,0">
+                        <TextBlock  x:Name="txtCuotaMensual"
+                                    VerticalAlignment="Center" 
+                                    FontSize="14"
+                                    Margin="10,1,10,0" 
+                                    Height="22"
+                                    TextAlignment="Center"
+                                    Text="Cuota mensual"
+                                    Opacity="0.3"/>
+                    </Border>
+
+                    <!-- Gráfico de Amortiguamiento -->
+                    <lvc:CartesianChart Grid.Column="1" 
+                                        x:Name="chartAmortiguamiento" 
+                                        Margin="10" 
+                                        LegendLocation="Bottom">
+                        <lvc:CartesianChart.Series>
+                            <lvc:StackedColumnSeries Title="Amortiguamiento" Values="{Binding amortiguamientoFrancesSeries}"/>
+                            <lvc:StackedColumnSeries Title="Interés" Values="{Binding interesFrancesSeries}"/>
+                        </lvc:CartesianChart.Series>
+
+                        <lvc:CartesianChart.AxisX>
+                            <lvc:Axis Title="Meses" Labels="{Binding LabelsAnios}"/>
+                        </lvc:CartesianChart.AxisX>
+                        <lvc:CartesianChart.AxisY>
+                            <lvc:Axis Title="Monto" LabelFormatter="{Binding FormatoLabelsEjeY}"/>
+                        </lvc:CartesianChart.AxisY>
+                    </lvc:CartesianChart>
+
+                    <!-- Tabla de Simulación de Interés Simple -->
+                    <DataGrid Grid.Row="2" Grid.ColumnSpan="2" x:Name="dataGridAmortiguamiento" AutoGenerateColumns="False" Margin="10,10,10,10">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Periodo (Año)" Binding="{Binding periodo}" Width="*"/>
+                            <DataGridTextColumn Header="Interés" Binding="{Binding interes}" Width="*"/>
+                            <DataGridTextColumn Header="Amortizacion" Binding="{Binding amortizacion}" Width="*"/>
+                            <DataGridTextColumn Header="Deuda Restante" Binding="{Binding deudaRestante}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Amort. Americana">
+                <Grid Height="Auto">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="36*" MaxHeight="260" MinHeight="260"/>
+                        <RowDefinition Height="5*"/>
+                        <RowDefinition Height="39*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Formulario de entrada para el Amortiguamiento Americano -->
+                    <Border Grid.Column="0"
+                            Grid.Row="0"
+                            Grid.RowSpan="2"
+                            CornerRadius="5"
+                            BorderBrush="Gray"
+                            Background="WhiteSmoke"
+                            BorderThickness="2"
+                            Padding="8"
+                            Margin="10,10,10,3">
+                        <StackPanel Margin="10" VerticalAlignment="Center">
+                            <TextBlock Text="Capital (C)" Margin="5"/>
+                            <TextBox x:Name="txtCapitalAmortiguamientoAmericano" Margin="5" TextChanged="ActualizarSimulacionAmortiguamientoAmericano"/>
+                            <TextBlock Text="Tasa de Interés (%)" Margin="5"/>
+                            <TextBox x:Name="txtTasaAmortiguamientoAmericano" Margin="5" TextChanged="ActualizarSimulacionAmortiguamientoAmericano"/>
+                            <TextBlock Text="Meses (m)" Margin="5"/>
+                            <TextBox x:Name="txtMesesAmortiguamientoAmericano" Margin="5" TextChanged="ActualizarSimulacionAmortiguamientoAmericano"/>
+                            <Button Content="Borrar Datos" Click="BorrarDatosAmortiguamientoAmericano" Margin="10,30,10,10"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Resultado -->
+                    <Border Grid.Row="1" 
+                            Grid.Column="1"
+                            BorderBrush="Gray"
+                            BorderThickness="2"
+                            CornerRadius="5"
+                            Width="500"
+                            Height="25"
+                            Background="WhiteSmoke"
+                            Margin="0,0,0,0">
+                        <TextBlock x:Name="txtCuotaMensualAmericano"
+                                   VerticalAlignment="Center"
+                                   FontSize="14"
+                                   Margin="10,1,10,0"
+                                   Height="22"
+                                   TextAlignment="Center"
+                                   Text="Cuota mensual"
+                                   Opacity="0.3"/>
+                    </Border>
+
+                    <!-- Gráfico de Amortiguamiento -->
+                    <lvc:CartesianChart Grid.Column="1" 
+                        x:Name="chartAmortiguamientoAmericano" 
+                        Margin="10" 
+                        LegendLocation="Bottom">
+                        <lvc:CartesianChart.Series>
+                            <lvc:StackedColumnSeries Title="Amortiguamiento" Values="{Binding amortiguamientoAmericanoSeries}"/>
+                            <lvc:StackedColumnSeries Title="Interés" Values="{Binding interesAmericanoSeries}"/>
+                        </lvc:CartesianChart.Series>
+
+                        <lvc:CartesianChart.AxisX>
+                            <lvc:Axis Title="Meses" Labels="{Binding LabelsAniosAmericano}"/>
+                        </lvc:CartesianChart.AxisX>
+                        <lvc:CartesianChart.AxisY>
+                            <lvc:Axis Title="Monto" LabelFormatter="{Binding FormatoLabelsEjeYAmericano}"/>
+                        </lvc:CartesianChart.AxisY>
+                    </lvc:CartesianChart>
+
+                    <!-- Tabla de Simulación de Amortiguamiento Americano -->
+                    <DataGrid Grid.Row="2" Grid.ColumnSpan="2" x:Name="dataGridAmortiguamientoAmericano" AutoGenerateColumns="False" Margin="10,10,10,10">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Periodo (Año)" Binding="{Binding periodo}" Width="*"/>
+                            <DataGridTextColumn Header="Interés" Binding="{Binding interes}" Width="*"/>
+                            <DataGridTextColumn Header="Amortización" Binding="{Binding amortizacion}" Width="*"/>
+                            <DataGridTextColumn Header="Deuda Restante" Binding="{Binding deudaRestante}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+
+            <TabItem Header="Anualidad Vencida">
+                <Grid Margin="10">
+                    <!-- Título -->
+                    <TextBlock Text="Cálculo de Anualidad Vencida" FontSize="20" FontWeight="Bold" 
+                   HorizontalAlignment="Center" Margin="0,10,0,20"/>
+
+                    <!-- Entradas -->
+                    <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,50,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="200"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="29"/>
+                            <RowDefinition Height="29"/>
+                            <RowDefinition Height="29"/>
+
+                        </Grid.RowDefinitions>
+
+                        <!-- Monto -->
+                        <TextBlock Text="Monto de la Anualidad:" VerticalAlignment="Center" />
+                        <TextBox x:Name="txtMonto" Grid.Column="1" Margin="5"/>
+
+                        <!-- Periodos -->
+                        <TextBlock Text="Número de Periodos:" VerticalAlignment="Center" Grid.Row="1" />
+                        <TextBox x:Name="txtPeriodos" Grid.Column="1" Margin="5" Grid.Row="1"/>
+
+                        <!-- Tasa -->
+                        <TextBlock Text="Tasa de Interés (%):" VerticalAlignment="Center" Grid.Row="2" />
+                        <TextBox x:Name="txtTasa" Grid.Column="1" Margin="5" Grid.Row="2"/>
+                    </Grid>
+
+                    <!-- Botón -->
+                    <Button Content="Calcular" HorizontalAlignment="Center" VerticalAlignment="Top" 
+                Margin="0,150,0,0" Width="100" Click="CalcularAnualidad_Click"/>
+
+                    <!-- Tabla -->
+                    <DataGrid x:Name="tablaResultados" AutoGenerateColumns="True" 
+                  Margin="10,200,10,10" IsReadOnly="True"/>
+                </Grid>
+
+            </TabItem>
+
+
+            <TabItem Header="Depreciación Lineal">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="36*" MaxHeight="260" MinHeight="260"/>
+                        <RowDefinition Height="5*"/>
+                        <RowDefinition Height="39*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Formulario de entrada para Depreciación -->
+                    <Border Grid.Column="0"
+                Grid.Row="0"
+                Grid.RowSpan="2"
+                CornerRadius="5"
+                BorderBrush="Gray"
+                Background="WhiteSmoke"
+                BorderThickness="2"
+                Padding="8"
+                Margin="10,10,10,3">
+                        <StackPanel Margin="10" VerticalAlignment="Center">
+                            <TextBlock Text="Costo Inicial (C)" Margin="5"/>
+                            <TextBox x:Name="txtCostoInicial" Margin="5" TextChanged="ActualizarDepreciacion"/>
+                            <TextBlock Text="Valor de Rescate (R)" Margin="5"/>
+                            <TextBox x:Name="txtValorRescate" Margin="5" TextChanged="ActualizarDepreciacion"/>
+                            <TextBlock Text="Vida Útil (años)" Margin="5"/>
+                            <TextBox x:Name="txtVidaUtil" Margin="5" TextChanged="ActualizarDepreciacion"/>
+                            <Button Content="Borrar Datos" Click="BorrarDatosDepreciacion" Margin="10,30,10,10"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Resultado -->
+                    <Border Grid.Row="1" 
+                Grid.Column="1"
+                BorderBrush="Gray"
+                BorderThickness="2"
+                CornerRadius="5"
+                Width="200"
+                Height="25"
+                Background="WhiteSmoke"
+                Margin="0,0,0,0">
+                        <TextBlock x:Name="txtResultadoDepreciacion"
+                       VerticalAlignment="Center"
+                       FontSize="14"
+                       Margin="10,1,10,0"
+                       TextAlignment="Center"
+                       Text="Resultado"
+                       Opacity="0.3"/>
+                    </Border>
+
+                    <!-- Gráfico de Depreciación -->
+                    <lvc:CartesianChart Grid.Column="1" x:Name="chartDepreciacion" Margin="10" LegendLocation="Bottom">
+                        <lvc:CartesianChart.Series>
+                            <lvc:LineSeries Title="Valor en Libros" Values="{Binding ValorEnLibrosSeries}" StrokeThickness="2"/>
+                            <lvc:LineSeries Title="Depreciación Acumulada" Values="{Binding DepreciacionAcumuladaSeries}" StrokeThickness="2"/>
+                        </lvc:CartesianChart.Series>
+                        <lvc:CartesianChart.AxisX>
+                            <lvc:Axis Title="Años" Labels="{Binding LabelsAnios}"/>
+                        </lvc:CartesianChart.AxisX>
+                        <lvc:CartesianChart.AxisY>
+                            <lvc:Axis Title="Monto" LabelFormatter="{Binding FormatoLabelsEjeY}"/>
+                        </lvc:CartesianChart.AxisY>
+                    </lvc:CartesianChart>
+
+                    <!-- Tabla de Depreciación -->
+                    <DataGrid Grid.Row="2" Grid.ColumnSpan="2" x:Name="dataGridDepreciacion" AutoGenerateColumns="False" Margin="10,10,10,10">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Periodo (Año)" Binding="{Binding Anio}" Width="*"/>
+                            <DataGridTextColumn Header="Depreciación Anual" Binding="{Binding DepreciacionAnual}" Width="*"/>
+                            <DataGridTextColumn Header="Depreciación Acumulada" Binding="{Binding DepreciacionAcumulada}" Width="*"/>
+                            <DataGridTextColumn Header="Valor en Libros" Binding="{Binding ValorEnLibros}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Gradiente aritmetica">
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="2*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Panel de entrada de datos -->
+                    <Border Grid.Column="0" BorderBrush="Gray" BorderThickness="2" CornerRadius="5" Padding="10" Background="WhiteSmoke">
+                        <StackPanel Margin="5">
+                            <TextBlock Text="Entrada de datos" FontWeight="Bold" FontSize="16" Margin="0,0,0,10"/>
+                            <TextBlock Text="Valor Base (A₀):" Margin="5"/>
+                            <TextBox x:Name="txtValorBase" Margin="5" TextChanged="ActualizarCalculo"/>
+                            <TextBlock Text="Tasa de Interés (i):" Margin="5"/>
+                            <TextBox x:Name="txtTasaInteres" Margin="5" TextChanged="ActualizarCalculo"/>
+                            <TextBlock Text="Incremento/Decremento (G):" Margin="5"/>
+                            <TextBox x:Name="txtIncremento" Margin="5" TextChanged="ActualizarCalculo"/>
+                            <TextBlock Text="Número de Periodos (n):" Margin="5"/>
+                            <TextBox x:Name="txtPeriodos1" Margin="5" TextChanged="ActualizarCalculo"/>
+                            <Button Content="Borrar Datos" Click="BorrarDatos" Margin="5,20,5,5"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Resultado del cálculo -->
+                    <Border Grid.Column="1" Grid.Row="0" Margin="169,6,226,284" BorderBrush="Gray" BorderThickness="2" CornerRadius="5" Background="LightYellow" RenderTransformOrigin="0.5,0.5">
+                        <Border.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="0.018"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Border.RenderTransform>
+                        <TextBlock x:Name="txtResultado"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Right"
+                       FontSize="16"
+                       FontWeight="Bold"
+                       Text="Resultado: $0.00" Margin="0,0,10,0" RenderTransformOrigin="0.5,0.5">
+                            <TextBlock.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform/>
+                                    <SkewTransform/>
+                                    <RotateTransform Angle="0.402"/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </TextBlock.RenderTransform>
+                        </TextBlock>
+                    </Border>
+
+                    <!-- Gráfico del Gradiente -->
+                    <lvc:CartesianChart Grid.Column="1" Margin="0,45,20,79" LegendLocation="Bottom" Grid.RowSpan="2">
+                        <lvc:CartesianChart.Series>
+                            <lvc:LineSeries Title="Valor Presente por Periodo" Values="{Binding ValoresGrafico}" StrokeThickness="2"/>
+                        </lvc:CartesianChart.Series>
+                        <lvc:CartesianChart.AxisX>
+                            <lvc:Axis Title="Periodos (n)" Labels="{Binding LabelsPeriodos}"/>
+                        </lvc:CartesianChart.AxisX>
+                        <lvc:CartesianChart.AxisY>
+                            <lvc:Axis Title="Valor Presente ($)" LabelFormatter="{Binding FormatoEjeY}"/>
+                        </lvc:CartesianChart.AxisY>
+                    </lvc:CartesianChart>
+
+                    <!-- Tabla de Resultados -->
+                    <DataGrid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" x:Name="tablaResultados1" AutoGenerateColumns="False" Margin="24,21,10,10" IsReadOnly="True" Grid.RowSpan="2">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Periodo (n)" Binding="{Binding Periodo}" Width="*"/>
+                            <DataGridTextColumn Header="Valor Acumulado (A₀ + nG)" Binding="{Binding ValorAcumulado}" Width="*"/>
+                            <DataGridTextColumn Header="Valor Presente" Binding="{Binding ValorPresente}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="VAN, TIR y payback">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Encabezado -->
+                    <TextBlock Text="Calculadora VAN, TIR y Payback" FontWeight="Bold" FontSize="16" Margin="10" HorizontalAlignment="Center" />
+
+                    <!-- Cuerpo -->
+                    <Grid Grid.Row="1" Margin="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Entrada -->
+                        <StackPanel Grid.Column="0" Margin="10">
+                            <TextBlock Text="Tasa de Descuento (%)" />
+                            <TextBox x:Name="TasaDescuentoTextBox" Margin="0,5,0,15" />
+
+                            <TextBlock Text="Periodo" />
+                            <TextBox x:Name="PeriodoTextBox" Margin="0,5,0,15" />
+
+                            <TextBlock Text="Inversión" />
+                            <TextBox x:Name="InversionTextBox" Margin="0,5,0,15" />
+
+                            <TextBlock Text="Ingresos" />
+                            <TextBox x:Name="IngresosTextBox" Margin="0,5,0,15" />
+
+                            <Button x:Name="AgregarPeriodoButton" Content="Agregar Periodo" Click="AgregarPeriodoButton_Click" Margin="0,10" />
+                            <Button x:Name="CalcularButton" Content="Calcular" Click="CalcularButton_Click" Margin="0,10" />
+                        </StackPanel>
+
+                        <!-- Resultados y Tabla -->
+                        <StackPanel Grid.Column="1" Margin="10">
+                            <TextBlock Text="Resultados" FontWeight="Bold" Margin="0,0,0,10"/>
+
+                            <TextBlock Text="VAN:" />
+                            <TextBox x:Name="VANTextBox" IsReadOnly="True" Margin="0,5,0,15" />
+
+                            <TextBlock Text="TIR:" />
+                            <TextBox x:Name="TIRTextBox" IsReadOnly="True" Margin="0,5,0,15" />
+
+                            <TextBlock Text="Payback:" />
+                            <TextBox x:Name="PaybackTextBox" IsReadOnly="True" Margin="0,5,0,15" />
+
+                            <!-- Tabla de Flujos de Caja -->
+                            <DataGrid x:Name="FlujosDeCajaDataGrid" AutoGenerateColumns="False" Margin="0,10" HeadersVisibility="Column">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Periodo" Binding="{Binding Periodo}" Width="*"/>
+                                    <DataGridTextColumn Header="Inversión" Binding="{Binding Inversion}" Width="*"/>
+                                    <DataGridTextColumn Header="Ingresos" Binding="{Binding Ingresos}" Width="*"/>
+                                    <DataGridTextColumn Header="Flujo Neto" Binding="{Binding Flujo}" Width="*"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+
+
+</Window>
+
+
